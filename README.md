@@ -92,6 +92,7 @@ The number of images of each type available for training is only 43. The images 
 ## Results
 
 The model was able to predict the image in the other domain with a high resemblance as can be seen in the image below.
+
 ![MRI Predictions Tr1-Tr2](https://user-images.githubusercontent.com/62643813/106710439-f4137c80-661b-11eb-8a9c-fae7b7947533.png)
 ![MRI Predictions Tr2-Tr1](https://user-images.githubusercontent.com/62643813/106710454-f970c700-661b-11eb-9875-00947032761a.png)
 
