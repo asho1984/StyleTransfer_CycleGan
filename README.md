@@ -8,22 +8,27 @@ Misdiagnosis in the medical field is a very serious issue but it’s also uncomf
 One of the complicated tasks in medical imaging is to diagnose MRI (Magnetic Resonance Imaging). Sometimes to interpret the scan, the radiologist needs different variations of the imaging which can drastically enhance the accuracy of diagnosis by providing practitioners with a more comprehensive understanding. But to have access to different imaging is difficult & expensive.  
 With the help of Deep learning, we can use style transfer to generate artificial MRI images of different contrast levels from existing MRI scans. This will help to provide a better diagnosis with the help of an additional image. Using the generator models we can create T2 weighted images from T1 weighted MRI image and vice-versa.
 
+![TR1](https://user-images.githubusercontent.com/62643813/106710754-8156d100-661c-11eb-932a-e22bd03b9ca3.png)
+TR1 Weighted Image
+![Tr2](https://user-images.githubusercontent.com/62643813/106710765-8582ee80-661c-11eb-9a71-d6edd0ce2197.png)
+TR2 Weighted Image
+
 ## Deep Convolutional General Adversarial Networks (https://www.tensorflow.org/tutorials/generative/dcgan)
 
 DCGAN or Deep Convolutional based General Adversarial networks are one of the interesting innovations in machine learning.  They are kind of generative models by which we can create new data points which can resemble the original data at such a level that it could fool even the human eyes.  The models are built using Convolutional Neural Networks (CNN) and reach this level by training two neural networks simultaneously in an adversarial manner. On one side we have a generator network and on the other a discriminator also called as a classifier. 
 The model pair are trained using two sets of images in two different domains. The Generator network tries to produce a fake image in domain _2 corresponding to a real image input in domain_1 and the discriminator tries to distinguish the fake Image in domain_2 from the real image in domain_2. The training is carried out simultaneously, the generator network is trained to fool the discriminator into believing the fake image as real, at the same time discriminator is trained to identify fake as fake. It can be seen that both are trained in an adversarial manner hence the name GAN. Sufficient training makes the Generator produce fake images corresponding to inputs in one domain, which are indistinguishable from the real images in the other domain. This type of translation works for paired images in two domains and depends upon availability of paired images in the two domains. A more generalized generator for unpaired data needs other types training method i.e. DiscoGan,DualGan and CycleGan.
 
-## CycleGan (https://www.tensorflow.org/tutorials/generative/cyclegan)
-(https://hardikbansal.github.io/CycleGANBlog/)
+## CycleGan (https://www.tensorflow.org/tutorials/generative/cyclegan)(https://hardikbansal.github.io/CycleGANBlog/)
 
 As mentioned above, for creating a generalized style transfer model using unpaired data a different type of training method is required. CycleGan is one of those methods and has been used in this work to develop generator networks that could translate MRI images in one domain into another. 
- 
+![CG_Network_Architecture](https://user-images.githubusercontent.com/62643813/106709796-07721800-661b-11eb-9f28-36ade2cc05c7.jpg)
+![CG_Network_Architecture_1](https://user-images.githubusercontent.com/62643813/106709864-1fe23280-661b-11eb-8b97-1c88efd469d1.jpg)
  
 The four networks in the above picture and corresponding one in the work are listed below:
-	#### generator_g - Generator A2B – A Unet network to convert T1 weighted image into T2
-	#### generator_f – GeneratorB2A – A Unet network to convert T2 weighted image into T1
-	#### discriminator_x – Discriminator A - CNN based classifier to classify Real T1 and Generated T1 images
-	#### discriminator_y – Discriminator B - CNN based classifier to classify Real T2 and Generated T2 images
+#### generator_g - Generator A2B – A Unet network to convert T1 weighted image into T2
+#### generator_f – GeneratorB2A – A Unet network to convert T2 weighted image into T1
+#### discriminator_x – Discriminator A - CNN based classifier to classify Real T1 and Generated T1 images
+#### discriminator_y – Discriminator B - CNN based classifier to classify Real T2 and Generated T2 images
 Generator A2B takes in Input_A(real) and produces Generated_B(fake), which is fed to the Discriminator B. 
 
 ### Generator_loss
@@ -50,6 +55,7 @@ The Generator A2B is trained to produce an image in domain B for an input of rea
 ### Generator Network (https://machinelearningmastery.com/how-to-implement-pix2pix-gan-models-from-scratch-with-keras/)
 
 The Unet Architecture is used to build the generator models. The image shows the basic architecture of the Unet network.
+<img width="251" alt="Unet Architecture" src="https://user-images.githubusercontent.com/62643813/106710062-5ae46600-661b-11eb-8720-60430ff8a0f6.png">
   
 The U-Net model is an encoder-decoder model for image translation, it also uses skip connections that connect layers in the encoder with corresponding layers in the decoder with the same sized feature maps. The connections concatenate the channels of the feature map in the downsampling layer with the feature map in the upsampling layer.
 The encoder part of the model is comprised of convolutional layers that use a 3×3 filter to down sample the input source image down to a bottleneck layer. The decoder part of the model reads the bottleneck output and uses transpose convolutional layers to upsample to the required output image size.
@@ -85,8 +91,10 @@ The number of images of each type available for training is only 43. The images 
 
 ## Results
 
-The model was able to predict the image in the other domain with a very high resemblance as can be seen in the image below.
-Initial generator  models was found to predict images resembling the input rather than the images in the other domain. 
-The model was improved by changing the number of features in the discriminator layers, the value of lambda and data augmentation by changing contrast and horizontal flipping. 
+The model was able to predict the image in the other domain with a high resemblance as can be seen in the image below.
+![MRI Predictions Tr1-Tr2](https://user-images.githubusercontent.com/62643813/106710439-f4137c80-661b-11eb-8a9c-fae7b7947533.png)
+![MRI Predictions Tr2-Tr1](https://user-images.githubusercontent.com/62643813/106710454-f970c700-661b-11eb-9875-00947032761a.png)
+
+Initial generator  models were found to predict images resembling the input rather than the images in the other domain. The model was improved by changing the number of features in the discriminator layers, the value of lambda and data augmentation by changing contrast and horizontal flipping. 
 
  
